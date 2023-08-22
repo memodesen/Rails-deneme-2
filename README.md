@@ -24,3 +24,4 @@ Things you may want to cover:
 * ...
 # Rails-deneme-2
 # Rails
+# Rails-deneme-2

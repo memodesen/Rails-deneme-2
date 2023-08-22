@@ -22,6 +22,3 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
-# Rails-deneme-2
-# Rails
-# Rails-deneme-2

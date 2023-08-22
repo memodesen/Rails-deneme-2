@@ -19,35 +19,41 @@ module Api
           render json:@product
         end
 
-        def new
-          @product = Product.new
-          render json: @product
+        def buy
+          product_id = params[:product_id]
+          quantity = params[:quantity]
+          @product = Product.find(product_id)
+        
+          if @product.available >= quantity.to_i
+            @product.available = @product.available - quantity.to_i
+            @product.save
+            render json: @product
+          else
+            render json: { message: "Invalid number" , status: :bad_request}
+          end
         end
-
-        def edit
-          render json:@product
-        end
+        
 
         def create
           @product = Product.new(product_params)
           if @product.save
             render json: @product, status: :ok
           else
-            render json: "Product is not saved.", status: :bad_request
+            render json: {message:"Product is not saved", status: :bad_request}
           end
         end
 
         def destroy
           @product.destroy
-          render json:"Product destroyed"
+          render json: {message:"Product is destroyed"}
         end
 
         def update
          if @product.update(product_params)
            render json: @product , status: :ok
-         else
-          render json:"Product is not updated." , status: :bad_request
-         end       
+          else
+           render json:{message:"Product is not updated" , status: :bad_request}
+          end       
         end
 
         
@@ -56,6 +62,7 @@ module Api
         def set_product
           @product = Product.find(params[:id])
         end
+
 
         def product_params
           params.permit(:name,:category,:available)

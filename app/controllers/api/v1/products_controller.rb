@@ -32,7 +32,8 @@ module Api
             render json: { message: "Invalid number" , status: :bad_request}
           end
         end
-        
+
+  
 
         def create
           @product = Product.new(product_params)

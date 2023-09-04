@@ -27,22 +27,26 @@ module Api
           if @product.available >= quantity.to_i
             @product.available = @product.available - quantity.to_i
             @product.save
-            render json: @product
+            render json: @product, status: :ok
           else
-            render json: { message: "Invalid number" , status: :bad_request}
+            render json: { message: "Invalid number" }, status: :bad_request
           end
         end
-
+        
   
 
         def create
           @product = Product.new(product_params)
+          
           if @product.save
             render json: @product, status: :ok
           else
-            render json: {message:"Product is not saved", status: :bad_request}
+            render json: { message: "Product is not saved", errors: @product.errors.full_messages }, status: :bad_request
           end
         end
+        
+        
+        
 
         def destroy
           @product.destroy
@@ -50,12 +54,16 @@ module Api
         end
 
         def update
-         if @product.update(product_params)
-           render json: @product , status: :ok
+          @product = Product.find(params[:id])
+          if @product.update(product_params)
+            render json: @product, status: :ok
           else
-           render json:{message:"Product is not updated" , status: :bad_request}
-          end       
+            render json: { message: "Product is not updated", errors: @product.errors.full_messages }, status: :bad_request
+          end
         end
+        
+        
+        
 
         
         private

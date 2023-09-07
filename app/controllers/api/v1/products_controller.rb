@@ -58,7 +58,7 @@ module Api
           if @product.update(product_params)
             render json: @product, status: :ok
           else
-            render json: { message: "Product is not updated", errors: @product.errors.full_messages }, status: :bad_request
+            render json: { message: "Product is not updated", errors: @product.errors.full_messages }, status: :unprocessable_entity
           end
         end
         

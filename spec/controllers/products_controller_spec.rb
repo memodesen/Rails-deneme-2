@@ -24,6 +24,7 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
       expect(response).to have_http_status(:success)
     end
 
+
     it "returns the requested product" do
       product = FactoryBot.create(:product)
       get :show, params: { id: product.id }
@@ -41,27 +42,21 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
     end
   end
 
-
   
   describe "PUT #update" do
   it "updates the product" do
     product = FactoryBot.create(:product)
-    puts "Before Update: #{product.inspect}"
-    updated_params = { name: "Updated Product", category: "Updated Category", available: 5 }
-    put :update, params: { id: product.id, product: updated_params }
+    put :update, params: { id: product.id, name:"pro" }
     product.reload
-    puts "After Update: #{product.inspect}"
     expect(response).to have_http_status(:ok)
-    expect(product.name).to eq("Updated Product")
+    expect(product.name).to eq("pro")
   end
   
   
-
   it "fails to update the product with invalid parameters" do
     product = FactoryBot.create(:product)
     original_name = product.name
-    invalid_params = { name: "", category: "Updated Category", available: -5 } 
-    put :update, params: { id: product.id, product: invalid_params }
+    put :update, params: { id: product.id, available: -5 }
     product.reload
     expect(response).to have_http_status(:unprocessable_entity)
     expect(product.name).to eq(original_name)
